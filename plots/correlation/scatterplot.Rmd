@@ -1,0 +1,133 @@
+---
+title: "Scatter Plots"
+output: html_fragment
+---
+
+
+## Scatter Plots
+
+Scatter plots represent the values of two different variables using cartesian coordinates. Scatter plots are often used to display relationships between variables. In
+{ggplot2}, the `geom_point()` function is used to produce scatter plots. The data used in the examples comes from the `{palmerpenguins}` package.
+
+---
+
+### A simple scatter plot
+
+The simplest scatter plot will look at the relationship between `body_mass_g` and `bill_length_mm` across all types of penguins. Here, `body_mass_g` is represented on the x-axis, and `bill_length_mm` on the y-axis.
+
+:::: {style="display: flex;"}
+::: {style="width: 50%;"}
+```{r, eval = FALSE}
+ggplot(data = penguins,
+       mapping = aes(x = body_mass_g, y = bill_length_mm)) +
+  geom_point()
+```
+:::
+::: {style="width: 50%;"}
+```{r, echo=FALSE, warning=FALSE}
+library(ggplot2)
+library(palmerpenguins)
+ggplot(data = penguins,
+       mapping = aes(x = body_mass_g, y = bill_length_mm)) +
+  geom_point()
+```
+:::
+::::
+
+---
+
+### Colouring by group
+
+An additional variable can be represented by colouring the points based on the value of a third variable. This is done by setting the `colour` within the aesthetic mapping in `aes()` colours the points. Here, we colour by the `species` of penguin.
+
+:::: {style="display: flex;"}
+::: {style="width: 50%;"}
+```{r, eval = FALSE}
+ggplot(data = penguins,
+       mapping = aes(x = body_mass_g, y = bill_length_mm, colour = species)) +
+  geom_point()
+```
+:::
+::: {style="width: 50%;"}
+```{r, echo=FALSE, warning=FALSE}
+ggplot(data = penguins,
+       mapping = aes(x = body_mass_g, y = bill_length_mm, colour = species)) +
+  geom_point()
+```
+:::
+::::
+
+---
+
+### Adding a fitted line
+
+In scatter plots, it is often desirable to include a best-fitting line to the points. The function `geom_smooth()` adds a line and confidence intervals. By setting the `method` argument to `"lm"`, a straight line is fitted to the data set.
+
+:::: {style="display: flex;"}
+::: {style="width: 50%;"}
+```{r, eval = FALSE}
+ggplot(data = penguins,
+       mapping = aes(x = body_mass_g, y = bill_length_mm)) +
+  geom_point() +
+  geom_smooth(method='lm', formula= y~x)
+```
+:::
+::: {style="width: 50%;"}
+```{r, echo=FALSE, warning=FALSE}
+ggplot(data = penguins,
+       mapping = aes(x = body_mass_g, y = bill_length_mm)) +
+  geom_point() +
+  geom_smooth(method='lm', formula= y~x)
+```
+:::
+::::
+
+### Final version
+
+When, the data is grouped by species (through setting the colour argument), `geom_smooth()` fits three different best-fitting lines: one for each species. Setting the `se` argument to `FALSE` removes the confidence intervals from the plot. 
+
+`scale_color_brewer()` can be used to set a nicer colour scheme. The `"Dark2"` option is colour-blind friendly. A title, subtitle, caption, and axis titles are set through the `labs()` function. The built-in light {ggplot2} theme is added in here using `theme_light()`.
+
+The legend is moved inside the plotting area using `legend.position` within the `theme()` function. The value of `c(1,0)` places it in the bottom right corner. `legend.justification` determines which part of the legend box is aligned at `c(1,0)`. Here, the bottom right corner of the legend box is aligned with the bottom right corner of the plot area.
+
+:::: {style="display: flex;"}
+::: {style="width: 50%;"}
+```{r, eval = FALSE}
+ggplot(data = penguins,
+       mapping = aes(x = body_mass_g, y = bill_length_mm, colour = species)) +
+  geom_point() +
+  geom_smooth(method='lm', formula= y~x, se = FALSE) +
+  scale_color_brewer("Species", palette = "Dark2") +
+  labs(title = "Body Mass and Bill Length of Different Penguin Species",
+       subtitle = "Penguins with higher body mass tend to also have longer bills.",
+       caption = "Data: {palmerpenguins}",
+       x = "Body Mass (g)",
+       y = "Bill Length (mm)") +
+  theme_light() +
+  theme(legend.position = c(1, 0),
+        legend.justification = c(1, 0))
+```
+:::
+::: {style="width: 50%;"}
+```{r, echo=FALSE, warning=FALSE}
+ggplot(data = penguins,
+       mapping = aes(x = body_mass_g, y = bill_length_mm, colour = species)) +
+  geom_point() +
+  geom_smooth(method='lm', formula= y~x, se = FALSE) +
+  scale_color_brewer("Species", palette = "Dark2") +
+  labs(title = "Body Mass and Bill Length of Different Penguin Species",
+       subtitle = "Penguins with higher body mass tend to also have longer bills.",
+       caption = "Data: {palmerpenguins}",
+       x = "Body Mass (g)",
+       y = "Bill Length (mm)") +
+  theme_light() +
+  theme(legend.position = c(1, 0),
+        legend.justification = c(1, 0))
+```
+:::
+::::
+
+---
+
+
+

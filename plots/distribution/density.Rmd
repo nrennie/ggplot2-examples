@@ -1,0 +1,163 @@
+---
+title: Density plots
+output: html_fragment
+---
+
+## Density plots
+
+Density plots show the distribution  of a continuous variable. In {ggplot2}, the `geom_density()` function is used to produce density plots. The data used in the examples comes from the `{palmerpenguins}` package.  
+
+---
+
+
+### A simple density plot
+
+The simplest density plot will look at the distribution of `bill_length_mm`. In {ggplot2}, when creating a density plot using `geom_density()` only the `x` *OR* `y` argument needs to be set. Setting the variable of interest as the `x` argument gives a horizontal density plot, and as `y` a vertical density plot. Setting the variable as `x` is most common.
+
+:::: {style="display: flex;"}
+::: {style="width: 50%;"}
+```{r, eval = FALSE}
+ggplot(data = penguins, 
+       mapping = aes(x = bill_length_mm)) +
+  geom_density()
+```
+:::
+::: {style="width: 30%;"}
+```{r, echo=FALSE, warning=FALSE}
+library(ggplot2)
+library(palmerpenguins)
+ggplot(data = penguins, 
+       mapping = aes(x = bill_length_mm)) +
+  geom_density()
+```
+:::
+::::
+
+---
+
+### Multiple categories
+
+To plot the distribution of multiple categories of a variable, the `group` argument within the `aes()` function is used. Setting the `colour` of `fill` arguments to `species` would also split by achieve the same results with additional colours. 
+
+:::: {style="display: flex;"}
+::: {style="width: 50%;"}
+```{r, eval = FALSE}
+ggplot(data = penguins, 
+       mapping = aes(x = bill_length_mm, 
+                     group = species)) +
+  geom_density()
+```
+:::
+::: {style="width: 50%;"}
+```{r, echo=FALSE, warning=FALSE}
+ggplot(data = penguins, 
+       mapping = aes(x = bill_length_mm, 
+                     group = species)) +
+  geom_density()
+```
+:::
+::::
+
+---
+
+### Adding colour
+
+There are two ways to add colour to density plots: (i) using `colour` (or `color`) which changes the colour of the outline of density plots; (ii) using `fill` which changes the colour of the inner area of the densities. If `colour` or `fill` is set outside the `aes()` function, it must be a valid colour name, and will set the same colour for all density plots. If `colour` or `fill` is set inside the `aes()` function, the colours will change based on the value of a variable. Here, the `fill` changes based on the `species`. 
+
+When plotting multiple densities on the same plot, it is often a good idea to increase the transparency of the fill colour to make sure that all layers can be seen. This is achieved using the `alpha` argument within `geom_density()`. Since the same transparency is desired for all density plots, it is set outside the `aes()` function. An `alpha` value of `0` is completely transparent, whilst a value of `1` is solid colour.
+
+:::: {style="display: flex;"}
+::: {style="width: 50%;"}
+```{r, eval = FALSE}
+ggplot(data = penguins, 
+       mapping = aes(x = bill_length_mm, 
+                     group = species, 
+                     fill = species)) +
+  geom_density(alpha = 0.5)
+```
+:::
+::: {style="width: 50%;"}
+```{r, echo=FALSE, warning=FALSE}
+ggplot(data = penguins, 
+       mapping = aes(x = bill_length_mm, 
+                     group = species, 
+                     fill = species)) +
+  geom_density(alpha = 0.5)
+```
+:::
+::::
+
+---
+
+### Facetting
+
+Rather than displaying multiple distributions on the **same** plot, `facet_wrap()` can be used to **facet** the density plots and create a separate plot for each category. Note the `vars()` function wrapping around the variable when specifying the facet categories.
+
+
+:::: {style="display: flex;"}
+::: {style="width: 50%;"}
+```{r, eval = FALSE}
+ggplot(data = penguins, 
+       mapping = aes(x = bill_length_mm,
+                     fill = species)) +
+  geom_density(alpha = 0.5) +
+  facet_wrap(facets = vars(species))
+```
+:::
+::: {style="width: 50%;"}
+```{r, echo=FALSE, warning=FALSE}
+ggplot(data = penguins, 
+       mapping = aes(x = bill_length_mm,
+                     fill = species)) +
+  geom_density(alpha = 0.5) +
+  facet_wrap(facets = vars(species))
+```
+:::
+::::
+
+
+
+---
+
+### Final version
+
+Since the `fill` colours change in the same way as the values on the facets, a legend is not needed in this plot. The legend can be hidden using `theme(legend.position = "none")`. A title, subtitle, caption, and axis titles are set through the `labs()` function. The built-in minimalist {ggplot2} theme is added in here using `theme_minimal()`.
+
+:::: {style="display: flex;"}
+::: {style="width: 50%;"}
+```{r, eval = FALSE}
+ggplot(data = penguins, 
+       mapping = aes(x = bill_length_mm,
+                     fill = species)) +
+  geom_density(alpha = 0.5) +
+  facet_wrap(~ species) +
+  theme_minimal() +
+  labs(title = "Bill Length of Different Penguin Species", 
+       subtitle = "On average, Chinstrap penguins have the longest bill length.", 
+       caption = "Data: {palmerpenguins}", 
+       x = "Bill length (mm)", 
+       y = "") +
+  theme(legend.position = "none")
+```
+:::
+::: {style="width: 50%;"}
+
+```{r, echo=FALSE, warning=FALSE}
+ggplot(data = penguins, 
+       mapping = aes(x = bill_length_mm,
+                     fill = species)) +
+  geom_density(alpha = 0.5) +
+  facet_wrap(~ species) +
+  theme_minimal() +
+  labs(title = "Bill Length of Different Penguin Species", 
+       subtitle = "On average, Chinstrap penguins have the longest bill length.", 
+       caption = "Data: {palmerpenguins}", 
+       x = "Bill length (mm)", 
+       y = "") +
+  theme(legend.position = "none")
+```
+
+:::
+::::
+
+---

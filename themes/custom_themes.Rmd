@@ -1,0 +1,109 @@
+---
+title: "Custom themes"
+output: html_fragment
+---
+  
+
+## Custom themes
+
+Bubble plots are a special type of scatter plot, where the size of the points is mapped to a third variable. In {ggplot2}, the `geom_point()` function is used to produce bubble plots. The data used in the examples comes from the `{palmerpenguins}` package. 
+
+There are 93 elements of You can view them by running `names(theme_minimal())`
+
+Each part of the theme 
+* `element_text()`
+
+--- 
+
+### Default theme
+
+:::: {style="display: flex;"}
+::: {style="width: 50%;"}
+```{r, eval = FALSE}
+g <- ggplot(data = penguins, 
+       mapping = aes(x = body_mass_g, y = bill_length_mm, colour = species)) +
+  geom_point() +
+  geom_smooth(method='lm', formula= y~x, se = FALSE) +
+  scale_colour_discrete(name = "Species") +
+  labs(title = "Body Mass and Bill Length of Different Penguin Species", 
+       x = "Body Mass (g)", 
+       y = "Bill Length (mm)") 
+g
+```
+:::
+::: {style="width: 50%;"}
+```{r, echo=FALSE, warning=FALSE}
+library(ggplot2)
+library(palmerpenguins)
+g <- ggplot(data = penguins, 
+       mapping = aes(x = body_mass_g, y = bill_length_mm, colour = species)) +
+  geom_point() +
+  geom_smooth(method='lm', formula= y~x, se = FALSE) +
+  scale_colour_discrete(name = "Species") +
+  labs(title = "Body Mass and Bill Length of Different Penguin Species",
+       x = "Body Mass (g)", 
+       y = "Bill Length (mm)") 
+g
+```
+:::
+::::
+
+---
+
+### Background colours
+
+:::: {style="display: flex;"}
+::: {style="width: 50%;"}
+```{r, eval = FALSE}
+g 
+```
+:::
+::: {style="width: 50%;"}
+```{r, echo=FALSE, warning=FALSE}
+g
+```
+:::
+::::
+
+---
+
+### Legends
+
+---
+
+### Fonts
+
+The same arguments can be applied to:
+
+Note that some versions of Ubuntu fail to render `"mono"`. Try `"monospace"` instead.
+
+:::: {style="display: flex;"}
+::: {style="width: 50%;"}
+```{r, eval = FALSE}
+g + theme(plot.title = element_text(size = 18, 
+                                    colour = "blue", 
+                                    face = "bold",
+                                    family = "serif",
+                                    hjust = 0.5, 
+                                    vjust = 1))
+```
+:::
+::: {style="width: 50%;"}
+```{r, echo=FALSE, warning=FALSE}
+g + theme(plot.title = element_text(size = 18, 
+                                    colour = "blue", 
+                                    face = "bold",
+                                    family = "serif",
+                                    hjust = 0.5, 
+                                    vjust = 1))
+```
+:::
+::::
+
+You can also use 
+
+---
+
+### Gridlines
+
+---

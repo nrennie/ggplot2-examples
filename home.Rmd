@@ -1,0 +1,16 @@
+---
+title: Home
+output: html_fragment
+---
+
+<h1 style="text-align: center;">
+WELCOME!
+</h1>
+
+<p style="text-align: center;">
+Welcome to {ggplot2} Examples! Here you'll find examples of different plots made in {ggplot2} with the corresponding code used to generate them.
+</p>
+
+<p align="center">
+<img src="images/distribution.jpeg?raw=true" width="30%"><img src="images/correlation.jpeg?raw=true" width="30%">
+</p>

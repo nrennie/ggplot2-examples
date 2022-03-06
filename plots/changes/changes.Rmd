@@ -1,0 +1,12 @@
+---
+title: Changes
+output: html_fragment
+---
+
+# Changes
+
+* Line plot
+* Smoothed line plot
+* Stacked area chart
+* Seasonal plots
+* Calendar heat maps

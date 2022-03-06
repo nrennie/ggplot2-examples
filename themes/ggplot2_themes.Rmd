@@ -1,0 +1,87 @@
+---
+title: "{ggplot2} Themes"
+output: html_fragment
+---
+  
+
+## Bubble Plots
+
+Bubble plots are a special type of scatter plot, where the size of the points is mapped to a third variable. In {ggplot2}, the `geom_point()` function is used to produce bubble plots. The data used in the examples comes from the `{palmerpenguins}` package. 
+
+--- 
+
+### Default theme
+
+:::: {style="display: flex;"}
+::: {style="width: 50%;"}
+```{r, eval = FALSE}
+g <- ggplot(data = penguins, 
+       mapping = aes(x = body_mass_g, y = bill_length_mm, colour = species)) +
+  geom_point() +
+  geom_smooth(method='lm', formula= y~x, se = FALSE) +
+  scale_colour_discrete(name = "Species") +
+  labs(title = "Body Mass and Bill Length of Different Penguin Species", 
+       subtitle = "Penguins with higher body mass tend to also have longer bills.", 
+       caption = "Data: {palmerpenguins}", 
+       x = "Body Mass (g)", 
+       y = "Bill Length (mm)") 
+g
+```
+:::
+::: {style="width: 50%;"}
+```{r, echo=FALSE, warning=FALSE}
+library(ggplot2)
+library(palmerpenguins)
+g <- ggplot(data = penguins, 
+       mapping = aes(x = body_mass_g, y = bill_length_mm, colour = species)) +
+  geom_point() +
+  geom_smooth(method='lm', formula= y~x, se = FALSE) +
+  scale_colour_discrete(name = "Species") +
+  labs(title = "Body Mass and Bill Length of Different Penguin Species", 
+       subtitle = "Penguins with higher body mass tend to also have longer bills.", 
+       caption = "Data: {palmerpenguins}", 
+       x = "Body Mass (g)", 
+       y = "Bill Length (mm)") 
+g
+```
+:::
+::::
+
+---
+
+### Built-in themes
+
+:::: {style="display: flex;"}
+::: {style="width: 50%;"}
+```{r, eval = FALSE}
+g <- ggplot(data = penguins, 
+       mapping = aes(x = body_mass_g, y = bill_length_mm, colour = species)) +
+  geom_point() +
+  geom_smooth(method='lm', formula= y~x, se = FALSE) +
+  scale_colour_discrete(name = "Species") +
+  labs(title = "Body Mass and Bill Length of Different Penguin Species", 
+       subtitle = "Penguins with higher body mass tend to also have longer bills.", 
+       caption = "Data: {palmerpenguins}", 
+       x = "Body Mass (g)", 
+       y = "Bill Length (mm)") 
+g + theme_minimal()
+```
+:::
+::: {style="width: 50%;"}
+```{r, echo=FALSE, warning=FALSE}
+g <- ggplot(data = penguins, 
+       mapping = aes(x = body_mass_g, y = bill_length_mm, colour = species)) +
+  geom_point() +
+  geom_smooth(method='lm', formula= y~x, se = FALSE) +
+  scale_colour_discrete(name = "Species") +
+  labs(title = "Body Mass and Bill Length of Different Penguin Species", 
+       subtitle = "Penguins with higher body mass tend to also have longer bills.", 
+       caption = "Data: {palmerpenguins}", 
+       x = "Body Mass (g)", 
+       y = "Bill Length (mm)") 
+g + theme_minimal()
+```
+:::
+::::
+
+---

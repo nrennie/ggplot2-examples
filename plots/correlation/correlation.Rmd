@@ -1,0 +1,20 @@
+---
+title: Correlation plots
+output: html_fragment
+---
+
+# Correlation plots
+
+Correlation plots are used to examine the relationship between two (or more) variables. This section includes examples of:
+
+* Scatter plots
+* Bubble plots
+
+in {ggplot2}. The data used in the examples comes from the `{palmerpenguins}` package. The `penguins` data set contains data on characteristics of different penguins. 
+
+```{r, eval = FALSE}
+library(ggplot2)
+library(palmerpenguins)
+```
+
+

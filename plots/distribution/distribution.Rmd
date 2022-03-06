@@ -1,0 +1,21 @@
+---
+title: Distribution plots
+output: html_fragment
+---
+
+# Distribution plots
+
+Distributions plots are used to show the range of values that a variable can take. This section includes examples of:
+
+* Density plots
+* Histograms
+* Boxplots
+* Violin plots
+
+in {ggplot2}. The data used in the examples comes from the `{palmerpenguins}` package. The `penguins` data set contains data on characteristics of different penguins. 
+
+```{r, eval = FALSE}
+library(ggplot2)
+library(palmerpenguins)
+```
+

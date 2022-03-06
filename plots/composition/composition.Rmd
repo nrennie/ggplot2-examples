@@ -1,0 +1,10 @@
+---
+title: Composition
+output: html_fragment
+---
+
+# Composition
+
+* Pie charts
+* Waffle plots
+* Treemap

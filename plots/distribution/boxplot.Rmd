@@ -1,0 +1,154 @@
+---
+title: "Box plots"
+output: html_fragment
+---
+
+## Box plots 
+
+Box plots (sometimes called box and whisker plots) visualise the quantiles of a continuous variable. A box plot the minimum, lower quartile, median, upper quartile and maximum values. In ggplot2, the `geom_boxplot()` function is used to produce box plots. The data used in the examples comes from the `{palmerpenguins}` package. 
+
+---
+
+### Basic boxplots
+
+The simplest boxplot will look at the distribution of a single continuous variable. This example shows the distribution of `bill_length_mm` of penguins. In {ggplot2}, when creating a boxplot using `geom_boxplot()` only the `x` *OR* `y` argument needs to be set. Setting the variable of interest as the `x` argument gives a vertical boxplot, and as `y` a horizontal boxplot.
+
+:::: {style="display: flex;"}
+::: {style="width: 50%;"}
+```{r, eval = FALSE}
+ggplot(data = penguins, 
+       mapping = aes(y = bill_length_mm)) +
+  geom_boxplot()
+```
+:::
+::: {style="width: 50%;"}
+```{r, echo=FALSE, warning=FALSE}
+library(ggplot2)
+library(palmerpenguins)
+ggplot(data = penguins, 
+       mapping = aes(y = bill_length_mm)) +
+  geom_boxplot()
+```
+:::
+::::
+
+---
+
+### Adding points
+
+To better show the distribution of values, points can be overlain on the boxplot using `geom_jitter()`. `geom_jitter()` works similarly to `geom_point()` but adds some random noise. This is useful when displaying values, as otherwise the points would lie on a straight line. `geom_jitter()` requires both `x` and `y` values to be specified so we can set the value of `x` (or `y` if a horizontal boxplot was chosen) as `0` for all points.
+
+:::: {style="display: flex;"}
+::: {style="width: 50%;"}
+```{r, eval = FALSE}
+ggplot(data = penguins, 
+       mapping = aes(y = bill_length_mm)) +
+  geom_boxplot() +
+  geom_jitter(aes(x = 0))
+```
+:::
+::: {style="width: 50%;"}
+```{r, echo=FALSE, warning=FALSE}
+ggplot(data = penguins, 
+       mapping = aes(y = bill_length_mm)) +
+  geom_boxplot() +
+  geom_jitter(aes(x = 0))
+```
+:::
+::::
+
+---
+
+### Multiple categories
+
+The distribution of multiple (discrete) categories can be visualised by setting the `x` (or `y` if horizontal boxplots are desired). 
+
+:::: {style="display: flex;"}
+::: {style="width: 50%;"}
+```{r, eval = FALSE}
+ggplot(data = penguins, 
+       mapping = aes(x = species, 
+                     y = bill_length_mm)) +
+  geom_boxplot()
+```
+:::
+::: {style="width: 50%;"}
+```{r, echo=FALSE, warning=FALSE}
+ggplot(data = penguins, 
+       mapping = aes(x = species, 
+                     y = bill_length_mm)) +
+  geom_boxplot()
+```
+:::
+::::
+
+---
+
+### Adding colour
+
+There are two ways to add colour to boxplots: (i) using `colour` (or `color`) which changes the colour of the outline of boxplots; (ii) using `fill` which changes the colour of the inner area of the boxes. If `colour` or `fill` is set outside the `aes()` function, it must be a valid colour name, and will set the same colour for all box plots. If `colour` or `fill` is set inside the `aes()` function, the colours will change based on the value of a variable. Here, the `fill` changes based on the `species`.
+
+:::: {style="display: flex;"}
+::: {style="width: 50%;"}
+```{r, eval = FALSE}
+ggplot(data = penguins, 
+       mapping = aes(x = species, 
+                     y = bill_length_mm, 
+                     fill = species)) +
+  geom_boxplot()
+```
+:::
+::: {style="width: 50%;"}
+```{r, echo=FALSE, warning=FALSE}
+ggplot(data = penguins, 
+       mapping = aes(x = species, 
+                     y = bill_length_mm, 
+                     fill = species)) +
+  geom_boxplot()
+```
+:::
+::::
+
+---
+
+### Final version
+Since the colours change in the same way as the values on the x-axis, a legend is not needed in this plot. The legend can be hidden using `theme(legend.position = "none")`. A title, subtitle, caption, and axis titles are set through the `labs()` function. The built-in minimalist {ggplot2} theme is added in here using `theme_minimal()`.
+
+:::: {style="display: flex;"}
+::: {style="width: 50%;"}
+```{r, eval = FALSE}
+ggplot(data = penguins, 
+       mapping = aes(x = species, 
+                     y = bill_length_mm, 
+                     fill = species)) +
+  geom_boxplot() + 
+  theme_minimal() +
+  labs(title = "Bill Length of Different Penguin Species", 
+       subtitle = "On average, Chinstrap penguins have the longest bill length.", 
+       caption = "Data: {palmerpenguins}", 
+       x = "", 
+       y = "Bill length (mm)") +
+  theme(legend.position = "none")
+```
+:::
+::: {style="width: 50%;"}
+
+```{r, echo=FALSE, warning=FALSE}
+ggplot(data = penguins, 
+       mapping = aes(x = species, 
+                     y = bill_length_mm, 
+                     fill = species)) +
+  geom_boxplot() + 
+  theme_minimal() +
+  labs(title = "Bill Length of Different Penguin Species", 
+       subtitle = "On average, Chinstrap penguins have the longest bill length.", 
+       caption = "Data: {palmerpenguins}", 
+       x = "", 
+       y = "Bill length (mm)") +
+  theme(legend.position = "none")
+```
+
+:::
+::::
+
+---

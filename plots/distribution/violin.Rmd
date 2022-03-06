@@ -1,0 +1,129 @@
+---
+title: Violin plots
+output: html_fragment
+---
+
+## Violin plots
+
+Violin plots show the distribution of a continuous variable. They are similar to boxplots, but also show the density plots. While a boxplot shows only summary statistics, a violin plot shows the full distribution of the data. This is useful if the data is **multi-modal**. They are useful for comparing distributions between different groups. In ggplot2, the `geom_violin()` function is used to produce violin plots. The data used in the examples comes from the `{palmerpenguins}` package. 
+
+---
+
+### A simple violin plot
+
+The simplest violin plot will look at the distribution of `bill_length_mm` across all types of penguins. Unlike `geom_boxplot()`, `geom_violin()` does not work without specifying both `x` and `y` in the `aes()` function. So, to generate a violin plot for a single variable, we set the `x` (or `y` variable to a fixed value). You can set it to any value you want, here 1 is used.
+
+:::: {style="display: flex;"}
+::: {style="width: 50%;"}
+```{r, eval = FALSE}
+ggplot(data = penguins, 
+       mapping = aes(x = 1, 
+                     y = bill_length_mm)) +
+  geom_violin()
+```
+:::
+::: {style="width: 50%;"}
+```{r, echo=FALSE, warning=FALSE}
+library(ggplot2)
+library(palmerpenguins)
+ggplot(data = penguins, 
+       mapping = aes(x = 1, 
+                     y = bill_length_mm)) +
+  geom_violin()
+```
+:::
+::::
+
+---
+
+### Multiple categories
+
+The distribution of multiple (discrete) categories can be visualised by setting the `x` (or `y` if horizontal violin are desired). 
+
+:::: {style="display: flex;"}
+::: {style="width: 50%;"}
+```{r, eval = FALSE}
+ggplot(data = penguins, 
+       mapping = aes(x = species, 
+                     y = bill_length_mm)) +
+  geom_violin()
+```
+:::
+::: {style="width: 50%;"}
+```{r, echo=FALSE, warning=FALSE}
+ggplot(data = penguins, 
+       mapping = aes(x = species, 
+                     y = bill_length_mm)) +
+  geom_violin()
+```
+:::
+::::
+
+---
+
+### Adding colour
+
+There are two ways to add colour to violin plots: (i) using `colour` (or `color`) which changes the colour of the outline of violin plots; (ii) using `fill` which changes the colour of the inner area of the violin plots. If `colour` or `fill` is set outside the `aes()` function, it must be a valid colour name, and will set the same colour for all violin plots. If `colour` or `fill` is set inside the `aes()` function, the colours will change based on the value of a variable. Here, the `fill` is set to `"blue"` for all categories.
+
+:::: {style="display: flex;"}
+::: {style="width: 50%;"}
+```{r, eval = FALSE}
+ggplot(data = penguins, 
+       mapping = aes(x = species, 
+                     y = bill_length_mm)) +
+  geom_violin(fill = "blue")
+```
+:::
+::: {style="width: 50%;"}
+```{r, echo=FALSE, warning=FALSE}
+ggplot(data = penguins, 
+       mapping = aes(x = species, 
+                     y = bill_length_mm)) +
+  geom_violin(fill = "blue")
+```
+:::
+::::
+
+---
+
+### Final version
+Since the colours change in the same way as the values on the x-axis, a legend is not needed in this plot. The legend can be hidden using `theme(legend.position = "none")`. A title, subtitle, caption, and axis titles are set through the `labs()` function. The built-in minimalist {ggplot2} theme is added in here using `theme_minimal()`.
+
+:::: {style="display: flex;"}
+::: {style="width: 50%;"}
+```{r, eval = FALSE}
+ggplot(data = penguins, 
+       mapping = aes(x = species, 
+                     y = bill_length_mm, 
+                     fill = species)) +
+  geom_violin() + 
+  theme_minimal() +
+  labs(title = "Bill Length of Different Penguin Species", 
+       subtitle = "On average, Chinstrap penguins have the longest bill length.", 
+       caption = "Data: {palmerpenguins}", 
+       x = "", 
+       y = "Bill length (mm)") +
+  theme(legend.position = "none")
+```
+:::
+::: {style="width: 50%;"}
+
+```{r, echo=FALSE, warning=FALSE}
+ggplot(data = penguins, 
+       mapping = aes(x = species, 
+                     y = bill_length_mm, 
+                     fill = species)) +
+  geom_violin() + 
+  theme_minimal() +
+  labs(title = "Bill Length of Different Penguin Species", 
+       subtitle = "On average, Chinstrap penguins have the longest bill length.", 
+       caption = "Data: {palmerpenguins}", 
+       x = "", 
+       y = "Bill length (mm)") +
+  theme(legend.position = "none")
+```
+
+:::
+::::
+
+---

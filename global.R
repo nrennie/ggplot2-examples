@@ -1,0 +1,9 @@
+suppressPackageStartupMessages({
+  library(shiny)
+  library(shinyWidgets)
+  library(shinythemes)
+  library(htmltools)
+  library(markdown)
+  library(ggplot2)
+  library(glue)
+})

@@ -1,0 +1,121 @@
+---
+title: "Bubble Plots"
+output: html_fragment
+---
+  
+
+## Bubble Plots
+
+Bubble plots are a special type of scatter plot, where the size of the points is mapped to a third variable. In {ggplot2}, the `geom_point()` function is used to produce bubble plots. The data used in the examples comes from the `{palmerpenguins}` package. 
+
+--- 
+
+### Basic bubble plot
+
+A bubble plot is constructed by mapping a variable to the `size` argument in the `aes()` function. {ggplot2} automatically constructs the size scale, and displays the legend.
+
+:::: {style="display: flex;"}
+::: {style="width: 50%;"}
+```{r, eval = FALSE}
+ggplot(data = penguins, 
+       mapping = aes(x = bill_depth_mm, y = bill_length_mm, size = body_mass_g)) +
+  geom_point()
+```
+:::
+::: {style="width: 50%;"}
+```{r, echo=FALSE, warning=FALSE}
+library(ggplot2)
+library(palmerpenguins)
+ggplot(data = penguins, 
+       mapping = aes(x = bill_depth_mm, y = bill_length_mm, size = body_mass_g)) +
+  geom_point()
+```
+:::
+::::
+
+---
+
+### Adding colour
+
+There are two ways to add colour to data points: (i) using `colour` (or `color`) which changes the colour of the outline of points; (ii) using `fill` which changes the colour of the inner area of the points. Note that not all point shapes (set using the `pch` or `shpae` argument) have both `fill` and `colour` as customisable elements. Setting the `colour` or `fill` arguments within the aesthetic mapping in `aes()` colours the points by a variable. Here, we coloured by `species`. 
+
+Since many of the bubbles overlap, it's often a good idea to make the fill transparent. The `alpha` parameter sets the transparency of the fill: `0` is completely transparent, and `1` is completely solid fill. We don't want the value of `alpha` to be dependent on the data, so it is set outside of the `aes()` function in `geom_point()`.
+
+:::: {style="display: flex;"}
+::: {style="width: 50%;"}
+```{r, eval = FALSE}
+ggplot(data = penguins, 
+       mapping = aes(x = bill_depth_mm, 
+                     y = bill_length_mm, 
+                     size = body_mass_g, 
+                     colour = species, 
+                     fill = species)) +
+  geom_point(pch = 21, alpha = 0.5)
+```
+:::
+::: {style="width: 50%;"}
+```{r, echo=FALSE, warning=FALSE}
+ggplot(data = penguins, 
+       mapping = aes(x = bill_depth_mm, 
+                     y = bill_length_mm, 
+                     size = body_mass_g, 
+                     colour = species, 
+                     fill = species)) +
+  geom_point(pch = 21, alpha = 0.5)
+```
+:::
+::::
+
+---
+
+### Final version
+
+A **nicer** colour palette can be set for the colour and fill using `scale_colour_brewer()` and `scale_fill_brewer()`. The `"Dark2"` colour paletter is colour-blind friendly. Since the same palette and data is used to set both the colour and fill, {ggplot2} automatically combines the legends. 
+
+A better title for the size legend can be set through the `name` argument of `scale_size()`, and a title, subtitle, caption, and axis titles are set through the `labs()` function. The built-in black and white {ggplot2} theme is added in here using `theme_bw()`.
+
+:::: {style="display: flex;"}
+::: {style="width: 50%;"}
+```{r, eval = FALSE}
+ggplot(data = penguins, 
+       mapping = aes(x = bill_depth_mm, 
+                     y = bill_length_mm, 
+                     size = body_mass_g, 
+                     colour = species, 
+                     fill = species)) +
+  geom_point(pch = 21, alpha = 0.5) +
+  scale_colour_brewer("Species", palette = "Dark2") +
+  scale_fill_brewer("Species", palette = "Dark2") +
+  scale_size(name = "Body mass (g)") +
+  labs(title = "Bill length and depth of different penguin species", 
+       subtitle = "Penguins with higher body mass tend to also have longer bills.", 
+       caption = "Data: {palmerpenguins}", 
+       x = "Bill Depth (mm)", 
+       y = "Bill Length (mm)") +
+  theme_bw() 
+```
+:::
+::: {style="width: 50%;"}
+```{r, echo=FALSE, warning=FALSE}
+ggplot(data = penguins, 
+       mapping = aes(x = bill_depth_mm, 
+                     y = bill_length_mm, 
+                     size = body_mass_g, 
+                     colour = species, 
+                     fill = species)) +
+  geom_point(pch = 21, alpha = 0.5) +
+  scale_color_brewer("Species", palette = "Dark2") +
+  scale_fill_brewer("Species", palette = "Dark2") +
+  scale_size("Body mass (g)") +
+  labs(title = "Bill length and depth of different penguin species", 
+       subtitle = "Penguins with higher body mass tend to also have longer bills.", 
+       caption = "Data: {palmerpenguins}", 
+       x = "Bill Depth (mm)", 
+       y = "Bill Length (mm)") +
+  theme_bw() 
+```
+:::
+::::
+
+---
+

@@ -1,0 +1,171 @@
+---
+title: Histograms
+output: html_fragment
+---
+
+## Histograms
+
+Histograms show the distribution of a continuous variable by showing the frequency of different values within specified intervals. In ggplot2, the `geom_histogram()` function is used to produce histograms. The data used in the examples comes from the `{palmerpenguins}` package. 
+
+---
+
+
+### A simple histogram
+
+The simplest histogram will look at the distribution of `bill_length_mm`. In {ggplot2}, when creating a histogram using `geom_histogram()` only the `x` *OR* `y` argument needs to be set. Setting the variable of interest as the `x` argument gives a horizontal histogram, and as `y` a vertical histogram. Setting the variable as `x` is most common.
+
+:::: {style="display: flex;"}
+::: {style="width: 50%;"}
+```{r, eval = FALSE}
+ggplot(data = penguins, 
+       mapping = aes(x = bill_length_mm)) +
+  geom_histogram()
+```
+:::
+::: {style="width: 50%;"}
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+library(ggplot2)
+library(palmerpenguins)
+ggplot(data = penguins, 
+       mapping = aes(x = bill_length_mm)) +
+  geom_histogram()
+```
+:::
+::::
+
+### Setting the bin width
+
+By default, {ggplot2} splits the data into 30 equally sized bins. This can be changed in two ways: (i) specifying the number of bins using the `bins` argument in `geom_histogram()`, or (ii) specifying the size of the interval using the `binwidth` argument in `geom_histogram()`.
+
+:::: {style="display: flex;"}
+::: {style="width: 50%;"}
+```{r, eval = FALSE}
+ggplot(data = penguins, 
+       mapping = aes(x = bill_length_mm)) +
+  geom_histogram(bins = 40)
+```
+:::
+::: {style="width: 50%;"}
+```{r, echo=FALSE, warning=FALSE}
+ggplot(data = penguins, 
+       mapping = aes(x = bill_length_mm)) +
+  geom_histogram(bins = 40)
+```
+:::
+::::
+
+:::: {style="display: flex;"}
+::: {style="width: 50%;"}
+```{r, eval = FALSE}
+ggplot(data = penguins, 
+       mapping = aes(x = bill_length_mm)) +
+  geom_histogram(binwidth = 3)
+```
+:::
+::: {style="width: 50%;"}
+```{r, echo=FALSE, warning=FALSE}
+ggplot(data = penguins, 
+       mapping = aes(x = bill_length_mm)) +
+  geom_histogram(binwidth = 3)
+```
+:::
+::::
+
+---
+
+### Adding colour 
+
+There are two ways to add colour to histograms: (i) using `colour` (or `color`) which changes the colour of the outline of histogram columns; (ii) using `fill` which changes the colour of the inner area of the histogram columns. If `colour` or `fill` is set outside the `aes()` function, it must be a valid colour name, and will set the same colour for all histograms. If `colour` or `fill` is set inside the `aes()` function, the colours will change based on the value of a variable. Here, the `fill` changes based on the `species`, creating three (differently coloured) histograms.
+
+When plotting multiple histogram on the same plot, it is often a good idea to increase the transparency of the fill colour to make sure that all layers can be seen. This is achieved using the `alpha` argument within `geom_histogram()`. Since the same transparency is desired for all histograms, it is set outside the `aes()` function. An `alpha` value of `0` is completely transparent, whilst a value of `1` is solid colour.
+
+:::: {style="display: flex;"}
+::: {style="width: 50%;"}
+```{r, eval = FALSE}
+ggplot(data = penguins, 
+       mapping = aes(x = bill_length_mm, 
+                     fill = species)) +
+  geom_histogram(alpha = 0.5)
+```
+:::
+::: {style="width: 50%;"}
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+ggplot(data = penguins, 
+       mapping = aes(x = bill_length_mm, 
+                     fill = species)) +
+  geom_histogram(alpha = 0.5)
+```
+:::
+::::
+
+---
+
+### Facetting
+
+Rather than displaying multiple histograms on the **same** plot, `facet_wrap()` can be used to **facet** create a separate histogram for each category. Note the `vars()` function wrapping around the variable when specifying the facet categories.
+
+:::: {style="display: flex;"}
+::: {style="width: 50%;"}
+```{r, eval = FALSE}
+ggplot(data = penguins, 
+       mapping = aes(x = bill_length_mm,
+                     fill = species)) +
+  geom_histogram(alpha = 0.5) +
+  facet_wrap(facets = vars(species))
+```
+:::
+::: {style="width: 50%;"}
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+ggplot(data = penguins, 
+       mapping = aes(x = bill_length_mm,
+                     fill = species)) +
+  geom_histogram(alpha = 0.5) +
+  facet_wrap(facets = vars(species))
+```
+:::
+::::
+
+---
+
+### Final version
+
+Since the `fill` colours change in the same way as the values on the facets, a legend is not needed in this plot. The legend can be hidden using `theme(legend.position = "none")`. A title, subtitle, caption, and axis titles are set through the `labs()` function. The built-in light {ggplot2} theme is added in here using `theme_light()`.
+
+:::: {style="display: flex;"}
+::: {style="width: 50%;"}
+```{r, eval = FALSE}
+ggplot(data = penguins, 
+       mapping = aes(x = bill_length_mm,
+                     fill = species)) +
+  geom_histogram(alpha = 0.5) +
+  facet_wrap(~ species) +
+  theme_light() +
+  labs(title = "Bill Length of Different Penguin Species", 
+       subtitle = "On average, Chinstrap penguins have the longest bill length.", 
+       caption = "Data: {palmerpenguins}", 
+       x = "Bill length (mm)", 
+       y = "") +
+  theme(legend.position = "none")
+```
+:::
+::: {style="width: 50%;"}
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+ggplot(data = penguins, 
+       mapping = aes(x = bill_length_mm,
+                     fill = species)) +
+  geom_histogram(alpha = 0.5) +
+  facet_wrap(~ species) +
+  theme_light() +
+  labs(title = "Bill Length of Different Penguin Species", 
+       subtitle = "On average, Chinstrap penguins have the longest bill length.", 
+       caption = "Data: {palmerpenguins}", 
+       x = "Bill length (mm)", 
+       y = "") +
+  theme(legend.position = "none")
+```
+
+:::
+::::
+
+---
